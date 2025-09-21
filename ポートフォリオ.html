@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゆうばん - ポートフォリオ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 180px;
+            height: 100vh;
+            background: #333333;
+            color: white;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+         }
+
+        .nav-menu {
+            padding: 20px 0;
+         }
+
+        .nav-menu ul {
+            list-style: none;
+         }
+
+        .nav-menu li {
+            margin:5px 0;
+         }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+    
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: #fff;
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #333333;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+         }
+
+         /* Main Content */
+         .main-content {
+            margin-left: 180px;
+            min-height: 100vh;
+            background: white;
+            trnsition: margin-left 0.3s ease;
+         }
+
+         .main-text {
+              font-size: 1.1rem;
+              line-height: 1.8;
+          }
+
+         .page {
+             display: none;
+             padding: 40px;
+             min-height: 100vh;
+             animation: fadeIn 0.5s ease-in;
+         }
+
+         .page.active {
+             display: block;
+         }
+
+         @keyframes fadeIn {
+             from { opacity: 0; transform: translateY(20px); }
+             to { opacity: 1; transform: translateY(0); }
+         }
+
+         .welcome-banner {
+             background: #333333;
+             color: white;
+             text-align: center;
+             padding: 60px 40px;
+             margin: -40px -40px 40px -40px;
+         }
+
+         .welcome-banner h1 {
+             font-size: 3rem;
+             margin-bottom: 15px;
+             font-weight: 300;
+          }
+
+         .page-title {
+             font-size: 2.5rem;
+             margin-bottom: 30px;
+             color: #333;
+             position: relative;
+             padding-bottom: 15px;
+          }
+
+          .page-title::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 60px;
+              height: 4px;
+          }
+
+          /* About Page */
+
+          .about-text {
+              font-size: 1.1rem;
+              line-height: 1.8;
+          }
+
+          /* Projects Page */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .project-screenshot {
+            width: 100%;
+            height: auto;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .project-info {
+            padding: 30px;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-links a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+        }
+
+        .project-links a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .contact-form {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <nav class="nav-menu">
+             <ul>
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('about')" class="nav-link">About Me</a></li>
+                <li><a href="#" onclick="showPage('projects')" class="nav-link">Projects</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+             </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="welcome-banner">
+                <h1>ゆうばんのポートフォリオへようこそ！</h1>
+            </div>
+            <div class="page-content">
+                <h2>このサイトについて</h2>
+                <br>
+                <p class ="main-text">ここはゆうばんのポートフォリオサイトです。</p>
+                <p class ="main-text">ここには今まで作ったものを置いてあります。</p>
+                <p class ="main-text">どうぞごゆっくりご覧ください。</p>
+            </div>
+         </div>
+
+         <!-- About Page -->
+         <div id="about" class="page">
+             <h2 class="page-title">About Me</h2>
+                     <p  class="about-text">こんにちは！　私はプログラミングを勉強し始めたばかりのプログラマーの卵です。シンプルで使いやすいアプリやホームページを作ることを意識しています。</p>
+                     <p class="about-text">現在は主にHTMLやJavaを使用した開発の練習をしています。継続的な学習を重視し、新しい技術の習得に積極的に取り組んでいます。</p>
+                     <p class="about-text">今後とも経験値を増やしていき、よりよいものの創造を目指していきます。</p>
+                     <br>
+                     <p>HTML/CSS,JavaScript……2ヶ月</p>
+                     <p>Java……3ヶ月</p>
+         </div>
+
+         <!-- Projects Page -->
+         <div id="projects" class="page">
+             <h2 class="page-title">Projects</h2>
+             <div class="projects-grid">
+                 <div class="project-card">
+                 <img src="https://github.com/user-attachments/assets/33c5d825-8bd0-4b57-8595-362ad1649cb2" alt="画像1" class="project-screenshot">
+                 <h3 class="project-title">気分の記録</h3>
+                 <p class="project-description">
+                     気分を記録するためのシンプルなページです。ユーザー認証、過去の気分の記録を編集するシステム、気分の統計をとるシステムを統合したホームページになっています。モバイルでもデスクトップでも快適にご利用いただけます。</p>
+                 <div class="project-links">
+                     <a href="https://yuubann.github.io/kibunnnokiroku/" target="blank">気分の記録</a>
+                 </div>
+                 </div>
+
+<div class="project-card">
+                 <img src="https://github.com/user-attachments/assets/22582a7d-7a3a-489a-aa12-eb618cdc495e" alt="画像2" class="project-screenshot">
+                 <h3 class="project-title">勝率計算機</h3>
+                 <p class="project-description">
+                     勝率を計算するためのホームページです。自分や自分たちが複数のチームや相手と複数回戦った場合の各勝率と総合勝率を算出することができます。Excelファイルにエクスポート、Excelファイルをインポートすることもできます。</p>
+                 <div class="project-links">
+                     <a href="https://yuubann.github.io/syouritukeisannki/" target="blank">勝率計算機</a>
+                 </div>
+                 </div>
+              </div>
+            </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <h2 class="page-title">Contact</h2>
+               <h3>Email</h3>
+               <a href="mailto:yban1385@gmail.com?subject=お問い合わせ">yban1385@gmail.com</a>
+               <h3>github</h3>
+               <a href="https://github.com/yuubann">https://github.com/yuubann</a>
+                    
+                    <br>
+                    <div class="contact-form">
+                    <h3 style="margin-bottom: 25px; text-align: center; color: #333;">メッセージを送信</h3>
+                    <form action="https://formspree.io/f/mjkenedn" method="POST">
+                        <div class="form-group">
+                            <label for="name">お名前</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">メールアドレス</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">件名</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">メッセージ</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">送信する</button>
+                    </form>
+                </div>
+
+
+        </div>
+
+    <script>
+        // ページ切り替え機能（ロードなし）
+        function showPage(pageName) {
+            // 全てのページを非表示
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // 選択されたページを表示
+            document.getElementById(pageName).classList.add('active');
+
+            // ナビゲーションメニューのアクティブ状態を更新
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // モバイルでサイドバーを閉じる
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        // モバイルメニュー切り替え
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // ウィンドウサイズ変更時の処理
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // サイドバーの外側をクリックした時に閉じる（モバイル）
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                sidebar.classList.contains('active') && 
+                !sidebar.contains(event.target) && 
+                !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // フォーム送信の処理
+        const form = document.querySelector('.contact-form form');
+
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(form);
+
+          try {
+            const response = await fetch(form.action, {
+              method: form.method,
+              body: formData,
+              headers: {
+                'Accept': 'application/json'
+              }
+            });
+
+            if (response.ok) {
+              alert('メッセージが送信されました！');
+              form.reset();
+            } else {
+              alert('送信に失敗しました。もう一度お試しください。');
+            }
+          } catch (error) {
+            alert('エラーが発生しました。ネットワークを確認してください。');
+          }
+        });
+    </script>
+</body>
+</html>
